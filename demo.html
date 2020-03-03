@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>reveal.js – The HTML Presentation Framework</title>
+
+    <meta
+      name="description"
+      content="A framework for easily creating beautiful presentations using HTML"
+    />
+    <meta name="author" content="Hakim El Hattab" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/night.css" id="theme" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/monokai.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+
+    <!--[if lt IE 9]>
+      <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="reveal">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1 data-fragment-index="1" class="fragment fade-in">Memes</h1>
+          <h3 data-fragment-index="1" class="fragment fade-in">&</h3>
+          <h2>NestJS</h2>
+          <h3 class="fragment" data-fragment-index="0">& all-all-all</h3>
+          <small>Prepared by Alex Gusev</small>
+        </section>
+
+        <section
+          data-background="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/07/11/11/harold-0.jpg"
+        ></section>
+
+        <section>
+          <h1>Why?</h1>
+          <ol>
+            <li>
+              Microservices
+              <span>💦 💦 💦 </span>
+            </li>
+            <li>
+              Declarative
+              <mark class="fragment fade-in" data-fragment-index="0">@</mark>
+            </li>
+            <li>
+              Statically typed
+              <mark class="fragment fade-in" data-fragment-index="1">TS</mark>
+            </li>
+            <li>
+              <span>And others</span>
+              <mark class="fragment fade-in" data-fragment-index="2"
+                >BIG community</mark
+              >
+              <mark class="fragment fade-in" data-fragment-index="2"
+                >Friendly to newcomers</mark
+              >
+              <mark class="fragment fade-in" data-fragment-index="2"
+                >Fast development</mark
+              >
+              <mark class="fragment fade-in" data-fragment-index="2"
+                >Fast development</mark
+              >
+              <mark class="fragment fade-in" data-fragment-index="2"
+                >Angular style syntax for the backend</mark
+              >
+              <mark class="fragment fade-in" data-fragment-index="2"
+                ><span style="font-size: 1rem;">[Can be]</span> very fast</mark
+              >
+              <mark class="fragment fade-in" data-fragment-index="2"
+                >Scalable</mark
+              >
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h1>Why Not?</h1>
+          <ol>
+            <li>Docs are not very clear <sub>[yet]</sub></li>
+            <li>Possible short living</li>
+          </ol>
+        </section>
+
+        <section
+          data-background="https://thumbs.gfycat.com/WarlikeSlimGalago-size_restricted.gif"
+        >
+          <h1>Syntax</h1>
+        </section>
+
+        <section>
+          <h2>Tech task</h2>
+
+          Create Cats🐈 CRUD API:
+
+          <ol>
+            <li>
+              <mark style="font-size: 2rem;">C</mark> - POST /cats/:id - create
+              a cat
+            </li>
+            <li>
+              <mark style="font-size: 2rem;">R</mark> - GET /cats/:id - get a
+              cat
+            </li>
+            <li>
+              <mark style="font-size: 2rem;">U</mark> - PUT /cats/:id - change a
+              cat
+            </li>
+            <li>
+              <mark style="font-size: 2rem;">D</mark> - DELETE /cats/:id -
+              delete a cat
+            </li>
+            <li>
+              <span style="background-color: rgb(61, 61, 61);font-size: 2rem;"
+                >Ты хто?</span
+              >
+              - GET /cats - get all cats
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h4>Compare with pure ExpressJS</h4>
+          <h4><mark> ExpressJS</mark> CRUD code sample</h4>
+          <section>
+            <pre><mark>router.js</mark><code data-trim data-noescape>
+const notes = require('./note.js');
+
+module.exports = (app) => {
+	app.post('/notes', notes.create);
+	app.get('/notes', notes.findAll);
+	app.get('/notes/:noteId', notes.findOne);
+	app.put('/notes/:noteId', notes.update);
+	app.delete('/notes/:noteId', notes.delete);
+}
+						</code></pre>
+          </section>
+          <section>
+            <pre><mark>note.js</mark><code>
+const Note = require('./note.model.js');
+
+exports.create = (req, res) => {
+	// Implementation
+};
+exports.findAll = (req, res) => {
+	// Implementation
+};
+exports.findOne = (req, res) => {
+	// Implementation
+};
+exports.update = (req, res) => {
+	// Implementation
+};
+exports.delete = (req, res) => {
+	// Implementation
+};
+
+						</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <h4>Compare with pure ExpressJS</h4>
+          <h4><mark> NestJS</mark> CRUD code sample</h4>
+          <pre><mark>services/cast/cats.controller.ts</mark><code>
+import { 
+	Controller, Get, Query, Post, Body, Put, Param, Delete,
+} from '@nestjs/common';
+import { 
+	CreateCatDto, UpdateCatDto, ListAllEntities,
+} from './dto';
+
+@Controller('cats')
+export class CatsController {
+  @Post()
+  create(@Body() createCatDto: CreateCatDto) {
+    return 'This action adds a new cat';
+  }
+
+  @Get()
+  findAll(@Query() query: ListAllEntities) {
+    return `This action returns all cats (limit: ${query.limit} items)`;
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return `This action returns a #${id} cat`;
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
+    return `This action updates a #${id} cat`;
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return `This action removes a #${id} cat`;
+  }
+}
+
+					</code></pre>
+        </section>
+
+        <section>
+          <h2>The End</h2>
+        </section>
+      </div>
+    </div>
+
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+
+        transition: "slide", // none/fade/slide/convex/concave/zoom
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          {
+            src: "plugin/markdown/marked.js",
+            condition: function() {
+              return !!document.querySelector("[data-markdown]");
+            }
+          },
+          {
+            src: "plugin/markdown/markdown.js",
+            condition: function() {
+              return !!document.querySelector("[data-markdown]");
+            }
+          },
+          { src: "plugin/highlight/highlight.js" },
+          { src: "plugin/search/search.js", async: true },
+          { src: "plugin/zoom-js/zoom.js", async: true },
+          { src: "plugin/notes/notes.js", async: true }
+        ]
+      });
+    </script>
+  </body>
+</html>
