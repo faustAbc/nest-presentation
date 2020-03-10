@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/reveal.css" />
     <link rel="stylesheet" href="css/theme/night.css" id="theme" />
+    <link rel="stylesheet" href="css/index.css" />
 
     <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="lib/css/monokai.css" />
@@ -55,9 +56,55 @@
         </section>
 
         <section
-          data-background="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/07/11/11/harold-0.jpg"
+          data-background-image="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/07/11/11/harold-0.jpg"
         ></section>
-
+        <section>
+          <h2s>Aims 🎯</h2s>
+          <ul>
+            <li>Stir up your interest</li>
+            <li>Learn</li>
+            <li>Purpose</li>
+            <li>Fun</li>
+          </ul>
+        </section>
+        <section style="position: relative;">
+          <h2>Ask questions <br />🙋🙋🏿‍♂️🙋‍♂️</h2>
+          <h2
+            class="fragment"
+            data-fragment-index="0"
+            style="position: absolute; top: 200px; left: 1000px;"
+          >
+            🙋🙋🏿‍♂️🙋‍♂️
+          </h2>
+          <h2
+            class="fragment"
+            data-fragment-index="0"
+            style="position: absolute; top: 300px; left: 400px;"
+          >
+            🙋🙋🏿‍♂️🙋‍♂️
+          </h2>
+          <h2
+            class="fragment"
+            data-fragment-index="0"
+            style="position: absolute; top: 200px; left: 0;"
+          >
+            🙋🙋🏿‍♂️🙋‍♂️
+          </h2>
+          <h2
+            class="fragment"
+            data-fragment-index="0"
+            style="position: absolute; top: 400px; left: 200px;"
+          >
+            🙋🙋🏿‍♂️🙋‍♂️
+          </h2>
+          <h2
+            class="fragment"
+            data-fragment-index="0"
+            style="position: absolute; top: 400px; left: 700px;"
+          >
+            🙋🙋🏿‍♂️🙋‍♂️
+          </h2>
+        </section>
         <section>
           <h1>Why?</h1>
           <ol>
@@ -109,7 +156,7 @@
         </section>
 
         <section
-          data-background="https://thumbs.gfycat.com/WarlikeSlimGalago-size_restricted.gif"
+          data-background-image="https://thumbs.gfycat.com/WarlikeSlimGalago-size_restricted.gif"
         >
           <h1>Syntax</h1>
         </section>
@@ -136,34 +183,26 @@
               <mark style="font-size: 2rem;">D</mark> - DELETE /cats/:id -
               delete a cat
             </li>
-            <li>
-              <span style="background-color: rgb(61, 61, 61);font-size: 2rem;"
-                >Ты хто?</span
-              >
-              - GET /cats - get all cats
-            </li>
           </ol>
+        </section>
+
+        <section
+          data-background-iframe="https://nestjs.com/"
+          data-background-interactive
+        >
+          <h1>
+            <mark>
+              Docs
+            </mark>
+          </h1>
         </section>
 
         <section>
           <h4>Compare with pure ExpressJS</h4>
           <h4><mark> ExpressJS</mark> CRUD code sample</h4>
           <section>
-            <pre><mark>router.js</mark><code data-trim data-noescape>
-const notes = require('./note.js');
-
-module.exports = (app) => {
-	app.post('/notes', notes.create);
-	app.get('/notes', notes.findAll);
-	app.get('/notes/:noteId', notes.findOne);
-	app.put('/notes/:noteId', notes.update);
-	app.delete('/notes/:noteId', notes.delete);
-}
-						</code></pre>
-          </section>
-          <section>
-            <pre><mark>note.js</mark><code>
-const Note = require('./note.model.js');
+            <pre><mark>cats.js</mark><code data-trim data-noescape>
+const Cats = require('./cats.model.js');
 
 exports.create = (req, res) => {
 	// Implementation
@@ -180,7 +219,27 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
 	// Implementation
 };
+						</code></pre>
+          </section>
+          <section>
+            <pre><mark>router.js</mark><code data-trim data-noescape>
+const cats = require('./cats.js');
+const router = require('express').Router();
 
+router.post('/cats', cats.create);
+router.get('/cats', cats.findAll);
+router.get('/cats/:catId', cats.findOne);
+router.put('/cats/:catId', cats.update);
+router.delete('/cats/:catId', cats.delete);
+						</code></pre>
+          </section>
+          <section>
+            <pre><mark>app.js</mark><code data-trim data-noescape>
+const catsRouter = require('./router.js');
+
+// ...
+app.use('/cats', catsRouter);
+// ...
 						</code></pre>
           </section>
         </section>
@@ -188,47 +247,581 @@ exports.delete = (req, res) => {
         <section>
           <h4>Compare with pure ExpressJS</h4>
           <h4><mark> NestJS</mark> CRUD code sample</h4>
-          <pre><mark>services/cast/cats.controller.ts</mark><code>
-import { 
-	Controller, Get, Query, Post, Body, Put, Param, Delete,
-} from '@nestjs/common';
-import { 
-	CreateCatDto, UpdateCatDto, ListAllEntities,
-} from './dto';
+          <section>
+            <pre><mark>cats/cats.controller.ts</mark><code data-trim data-noescape>
+            import { CatsService } from './cats.service';
 
-@Controller('cats')
-export class CatsController {
-  @Post()
-  create(@Body() createCatDto: CreateCatDto) {
-    return 'This action adds a new cat';
+            @Controller('likes')
+            export class LikesController {
+              constructor(private readonly likesService: CatsService) {}
+            
+              @Post()
+              async create(@Body() createCatDto: CreateCatDto) {
+                return await this.likesService.create(createCatDto);
+              }
+            
+              @Get()
+              async findAll(@Query() query: ListAllEntities) {
+                return await this.likesService.findAll(query);
+              }
+            
+              @Get(':id')
+              async findOne(@Param('id') id: string) {
+                return await this.likesService.findOne(id);
+              }
+            
+              @Put(':id')
+              async update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
+                return await this.likesService.update(id, updateCatDto);
+              }
+            
+              @Delete(':id')
+              async remove(@Param('id') id: string) {
+                return await this.likesService.remove(id);
+              }
+            }
+            
+          </code></pre>
+          </section>
+          <section>
+            <pre><mark>cats/cats.service.ts</mark><code data-trim data-noescape>
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
+@Injectable()
+export class CatsService {
+  constructor(@InjectModel('Cats') private readonly CatsModel: Model) {}
+
+  async create(createCatDto: CreateCatDto) {
+    // Implementation
   }
 
-  @Get()
-  findAll(@Query() query: ListAllEntities) {
-    return `This action returns all cats (limit: ${query.limit} items)`;
+  async findAll(query: ListAllEntities) {
+    // Implementation
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return `This action returns a #${id} cat`;
+  async findOne(id: string) {
+    // Implementation
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
-    return `This action updates a #${id} cat`;
+  async update(id: string, updateCatDto: UpdateCatDto) {
+    // Implementation
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return `This action removes a #${id} cat`;
+  async remove(id: string) {
+    // Implementation
   }
 }
 
-					</code></pre>
+          </code></pre>
+          </section>
+          <section>
+            <pre><mark>cats/cats.module.ts</mark><code data-trim data-noescape>
+            import { Module } from '@nestjs/common';
+            import { CatsService } from './cats.service';
+            import { CatsController } from './cats.controller';
+            import { MongooseModule } from '@nestjs/mongoose';
+            import { CatsSchema } from 'src/models/cat.schema';
+            
+            @Module({
+              imports: [MongooseModule.forFeature([{ name: 'Cats', schema: CatsSchema }])],
+              providers: [CatsService],
+              controllers: [CatsController],
+            })
+            export class LikesModule {}
+            
+
+          </code></pre>
+          </section>
+        </section>
+        <section
+          data-background-image="https://i.gifer.com/Lju.gif"
+          style="height: max-content;"
+        >
+          <h1>WTF?</h1>
         </section>
 
         <section>
-          <h2>The End</h2>
+          <h2>Basics</h2>
+          <ul>
+            <li>Controllers</li>
+            <li>Providers</li>
+            <li>Modules</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>CLI</h4>
+          <pre><mark>CLI</mark><code data-trim data-noescape class="bash">
+            #!/bin/bash
+
+            nest new my-nest-project
+
+            nest generate service
+            nest generate controller
+            nest generate module
+
+            nest [start | build | add | update | ...]
+          </code></pre>
+        </section>
+        <section>
+          <h4>File structure 📁</h4>
+          <div style="text-align: start;">
+            <p>📂 Cats</p>
+            <p
+              class="fragment fade-in"
+              style="margin-left: 3rem;"
+              data-fragment-index="0"
+            >
+              ⚙️ cats.<mark>service</mark>.ts
+            </p>
+            <p
+              class="fragment fade-in"
+              style="margin-left: 3rem;"
+              data-fragment-index="1"
+            >
+              📞 cats.<mark>controller</mark>.ts
+            </p>
+
+            <p
+              class="fragment fade-in"
+              style="margin-left: 3rem;"
+              data-fragment-index="2"
+            >
+              🧵 cats.<mark>module</mark>.ts
+            </p>
+            <p
+              class="fragment fade-in"
+              style="margin-left: 3rem;"
+              data-fragment-index="3"
+            >
+              🧪 cats.controller.<mark>spec</mark>.ts
+            </p>
+            <p
+              class="fragment fade-in"
+              style="margin-left: 3rem;"
+              data-fragment-index="3"
+            >
+              🧪 cats.service.<mark>spec</mark>.ts
+            </p>
+          </div>
+        </section>
+        <section>
+          <h2>Controllers 📞</h2>
+          <section>
+            <h4>
+              Controller - API
+            </h4>
+            <ul>
+              <li>⬇️ requests and ⬆️ responses</li>
+              <li>🛤️ routing</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Decorators - <mark>@</mark></h4>
+            <ul>
+              <li>HOF - like</li>
+            </ul>
+          </section>
+          <section>
+            <pre><code data-trim data-noescape>
+      function doSomething() {}
+
+      function loggingDecorator(wrapped) {
+        return function() {
+          // Payload
+          const result = wrapped.apply(this, arguments);
+          return result;
+        };
+      }
+    </code></pre>
+            <pre class="fragment fade-in"><code data-trim data-noescape>
+      const wrapped = loggingDecorator(doSomething);
+      
+      wrapped(); // do something with payload
+      
+    </code></pre>
+            <pre class="fragment fade-in"><code data-trim data-noescape>
+      
+<mark>@loggingDecorator</mark>
+function doSomething() {}
+
+doSomething(); // do something with payload
+
+    </code></pre>
+          </section>
+          <section>
+            <h4>
+              DON'T DO IT WITH FUNCTIONS <br />
+              works with <mark> ES6 classes only</mark>
+            </h4>
+          </section>
+          <section>
+            <pre><code data-trim data-noescape data-line-numbers="1|2|3|5|6|7|10|11|12|13-16|18-20|22">
+@Controller('post')
+export class PostController {
+constructor(private readonly postService: PostService) {}
+
+@Get()
+async listAll(@Body() getPostsDTO?: IGetPostsDTO) {
+return await this.postService.findAll(getPostsDTO);
+}
+
+@Post()
+@UseGuards(AuthGuard('jwt'))
+@UseInterceptors(FileInterceptor('photo'))
+@ApiTags('cats')
+@ApiHeader({ name: 'X-MyHeader' })
+@ApiResponse({ status: 201, description: 'Desc.' })
+@ApiResponse({ status: 403, description: 'Forbidden.' })
+async sendFile(
+@UploadedFile() file: IFileDTO,
+@User() user: IUser,
+@Body() { text }: ICreatePostDTO,
+) {
+return await this.postService.create(text, user._id);
+}
+    </code></pre>
+          </section>
+        </section>
+        <section
+          class="stretch"
+          data-background-size="contain"
+          data-background-image="./static/shocked.jpeg"
+        ></section>
+        <section>
+          <h2>Providers ⚙️</h2>
+          <section>
+            <h4>Provider - Any source of data</h4>
+            <ul>
+              <li>@Injectable()</li>
+              <li>Services</li>
+              <li>Inject dependencies</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Dependency injection</h4>
+            <p>
+              DI is a coding pattern in which a class asks for dependencies from
+              <mark>external</mark> sources rather than creating them itself.
+            </p>
+            <a href="https://angular.io/guide/dependency-injection">
+              © Angular docs</a
+            >
+          </section>
+          <section>
+            <pre><code data-trim data-noescape data-line-numbers="1-15|4">
+              import { Injectable } from '@nestjs/common';
+              import { Cat } from './interfaces/cat.interface';
+              
+              @Injectable()
+              export class CatsService {
+                private readonly cats: Cat[] = [];
+              
+                create(cat: Cat) {
+                  this.cats.push(cat);
+                }
+              
+                findAll(): Cat[] {
+                  return this.cats;
+                }
+              }
+                  </code></pre>
+          </section>
+        </section>
+        <section>
+          <h2>Modules 🧵</h2>
+          <section data-background-image="./static/vouk.gif"></section>
+          <section>
+            <h4>
+              <mark>Module</mark> - Metadata to tie parts of functionality
+            </h4>
+            <ul>
+              <li>@Module()</li>
+              <li>Metadata</li>
+              <li>Application dependencies graph</li>
+              <li>Nest runtime</li>
+            </ul>
+          </section>
+          <section>
+            <h4>@Module()</h4>
+            <ul>
+              <li><mark>providers</mark> - own providers(services)</li>
+              <li><mark>controllers</mark> - controllers to instantiated</li>
+              <li><mark>imports</mark> - external modules</li>
+              <li><mark>exports</mark> - own providers to export</li>
+            </ul>
+          </section>
+          <section>
+            <pre><mark>cats/cats.module.ts</mark><code data-trim data-noescape>
+              import { Module } from '@nestjs/common';
+              import { CatsController } from './cats.controller';
+              import { CatsService } from './cats.service';
+              
+              @Module({
+                controllers: [CatsController],
+                providers: [CatsService],
+              })
+              export class CatsModule {}
+                  </code></pre>
+          </section>
+        </section>
+        <section>
+          <h2>Congrats! 🏆</h2>
+          <h4>Now you can write:</h4>
+          <ul>
+            <li><img src="./static/fb.png" class="logo" /> Facebook</li>
+            <li><img src="./static/youtube.png" class="logo" />YouTube</li>
+            <li>...etc</li>
+          </ul>
+        </section>
+        <section>
+          <h2>
+            Fast Travel
+          </h2>
+          <img
+            src="https://miro.medium.com/max/2560/1*405IQZ8h26T09G-muPicJg.jpeg"
+            alt=""
+          />
+        </section>
+        <section>
+          <h2>Middleware 💉</h2>
+          <section>
+            <ul>
+              <li>Execute any code.</li>
+              <li>Make changes to the request and the response objects.</li>
+              <li>End the request-response cycle.</li>
+              <li>Call the next middleware in the stack.</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Client ➡️ 💾 ➡️ Server</h4>
+            <br />
+            <h4>Client ➡️ 💾 ➡️ <mark>Middleware</mark> 💾🍹 ➡️ Server</h4>
+          </section>
+          <section>
+            <pre><mark>logger.middleware.ts</mark><code data-trim data-noescape>
+              import { Injectable, NestMiddleware } from '@nestjs/common';
+              import { Request, Response } from 'express';
+              
+              @Injectable()
+              export class LoggerMiddleware implements NestMiddleware {
+                use(req: Request, res: Response, next: Function) {
+                  console.log('Request...');
+                  next();
+                }
+              }
+              
+                  </code></pre>
+          </section>
+        </section>
+        <section>
+          <h2>Exception filters</h2>
+          <section>
+            <p>
+              Allows:
+            </p>
+            <ul>
+              <li>Create <mark>custom exceptions</mark></li>
+              <li>Create <mark>custom exception handlers</mark></li>
+            </ul>
+          </section>
+          <section>
+            <pre><mark>http-exception.filter.ts</mark><code data-trim data-noescape>
+              import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
+              import { Request, Response } from 'express';
+              
+              @Catch(HttpException)
+              export class HttpExceptionFilter implements ExceptionFilter {
+                catch(exception: HttpException, host: ArgumentsHost) {
+                  const ctx = host.switchToHttp();
+                  const response = ctx.getResponse();
+                  const request = ctx.getRequest();
+                  const status = exception.getStatus();
+              
+                  response
+                    .status(status)
+                    .json({
+                      statusCode: status,
+                      timestamp: new Date().toISOString(),
+                      path: request.url,
+                    });
+                }
+              }
+              
+                  </code></pre>
+          </section>
+        </section>
+        <section>
+          <h2>Pipes</h2>
+          <section>
+            <ul>
+              <li>Transformation</li>
+              <li>Validation</li>
+              <li>@injectable</li>
+            </ul>
+          </section>
+          <section>
+            <pre><mark>pipes/JoiValidationPipe.ts</mark><code data-trim data-noescape>
+import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
+
+@Injectable()
+export class JoiValidationPipe implements PipeTransform {
+  constructor(private readonly schema: Object) {}
+
+  transform(value: any, metadata: ArgumentMetadata) {
+    const { error } = this.schema.validate(value);
+    if (error) {
+      throw new BadRequestException('Validation failed');
+    }
+    return value;
+  }
+}
+
+                  </code></pre>
+          </section>
+          <section>
+            <pre><mark>someModule/some-module.controller.ts</mark><code data-trim data-noescape>
+              @Post()
+              @UsePipes(new JoiValidationPipe(createCatSchema))
+              async create(@Body() createCatDto: CreateCatDto) {
+                this.catsService.create(createCatDto);
+              }
+              
+                  </code></pre>
+          </section>
+        </section>
+        <section>
+          <h2>And others...</h2>
+          <ul>
+            <li><mark>Guards</mark> - To be or not to be</li>
+            <li><mark>Interceptors</mark> - Hooks</li>
+            <li>
+              <mark>Custom route decorators</mark> - Encapsulate logic(@User)
+            </li>
+            <li><mark>Lifecycle Events</mark> - lifecycle hooks</li>
+          </ul>
+        </section>
+        <section data-background-image="./static/and-what.png">
+          <h2>And What?</h2>
+        </section>
+        <section data-background-image="./static/show.gif">
+          <h2><mark>ШОУ ИТ ТУ МИ!</mark></h2>
+        </section>
+        <section>
+          <h2>GraphQL integration</h2>
+          <section>
+            <h4>Graph QL</h4>
+            <ul>
+              <li>
+                A query language for an API
+              </li>
+              <li>
+                The Schema Definition Language
+              </li>
+              <li>
+                Fetching Data with Queries
+              </li>
+            </ul>
+          </section>
+          <section
+            data-background-iframe="https://lucasconstantino.github.io/graphiql-online/"
+            data-background-interactive
+          ></section>
+          <section>
+            <pre><code data-trim data-noescape>
+
+              import { GraphQLDefinitionsFactory } from '@nestjs/graphql';
+              import { join } from 'path';
+              
+              const definitionsFactory = new GraphQLDefinitionsFactory();
+              definitionsFactory.generate({
+                typePaths: ['./src/**/*.graphql'],
+                path: join(process.cwd(), 'src/graphql.ts'),
+                outputAs: 'class',
+              });
+                  </code></pre>
+          </section>
+          <section>
+            <h4>Fast configuration</h4>
+            <h4>Types generating</h4>
+            <h4>Code first</h4>
+          </section>
+          <section data-background-image="./static/shocked.jpg"></section>
+        </section>
+        <section>
+          <h2>Microservices</h2>
+          <section>
+            <h4>To separate different logic</h4>
+            <h4>[describe in 2 words]</h4>
+          </section>
+          <section>
+            <pre><mark>Server</mark><code data-trim data-noescape>
+
+              import { Controller } from '@nestjs/common';
+              import { MessagePattern } from '@nestjs/microservices';
+              
+              @Controller()
+              export class MathController {
+                @MessagePattern({ cmd: 'sum' })
+                accumulate(data: number[]): number {
+                  return (data || []).reduce((a, b) => a + b);
+                }
+              }
+                  </code></pre>
+          </section>
+          <section>
+            <pre><mark>Client</mark><code data-trim data-noescape>
+              @Module({
+                imports: [
+                  ClientsModule.register([
+                    { name: 'MATH_SERVICE', transport: Transport.TCP },
+                  ]),
+                ]
+                ...
+              })
+                  </code></pre>
+            <pre><mark>Client</mark><code data-trim data-noescape>
+              constructor(
+                @Inject('MATH_SERVICE') private readonly client: ClientProxy,
+              ) {}
+                        </code></pre>
+            <pre><mark>Client</mark><code data-trim data-noescape>
+              accumulate(): Observable<number> {
+                const pattern = { cmd: 'sum' };
+                const payload = [1, 2, 3];
+                return this.client.send<number>(pattern, payload);
+              }
+                                    </code></pre>
+          </section>
+          <section>
+            <h4>As message Bus could be:</h4>
+            <ul>
+              <li>RabbitMQ</li>
+              <li>MQTT</li>
+              <li>Redis</li>
+              <li>gRPC</li>
+              <li>Others</li>
+            </ul>
+          </section>
+          <section> <img src="./static/very-impressed.jpeg" style="height: 50vh;" alt=""></section>
+          <section> <img src="./static/jocker.gif" style="height: 50vh;" alt=""></section>
+        </section>
+        <section data-background-image="./static/no-name.gif"></section>
+        <section><h2>Takeaways</h2>
+        <ul>
+          <li>NestJS - powerful framework</li>
+          <li>Saves time in comparison with ExpressJS</li>
+          <li>Module system provides more maintainability</li>
+          <li>Easy to write code</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Let's test <span style="color:red;">NestJS</span> in <span style="color:yellow;">Yellow</span></h2>
+      </section>
+        <section data-background-image="./static/thanks.jpeg">
+          <h2>Thank You for attention</h2>
         </section>
       </div>
     </div>
